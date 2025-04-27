@@ -62,8 +62,16 @@ function M.format_block_under_cursor()
 end
 
 -- Setup function to attach keymaps
-function M.setup()
-  vim.keymap.set("n", "<leader>cf", M.format_block_under_cursor, { desc = "Format fenced block under cursor" })
+function M.setup(opts)
+  opts = opts or {}
+
+  -- Allow passing custom formatters and keymaps
+  formatters = vim.tbl_extend("force", formatters, opts.formatters or {})
+
+  local keymap = opts.keymap or "<leader>cf"
+
+  vim.keymap.set("n", keymap, M.format_block_under_cursor, { desc = "Format fenced block under cursor" })
 end
+
 
 return M
